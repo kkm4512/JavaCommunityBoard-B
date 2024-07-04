@@ -1,8 +1,6 @@
 package JavaCommunityBoard;
 
-import JavaCommunityBoard.Exceptions.HandleDuplicateMember;
-import JavaCommunityBoard.Exceptions.HandleMisMatchBoardInfo;
-import JavaCommunityBoard.Exceptions.HandleMisMatchUserInfo;
+import JavaCommunityBoard.Exceptions.*;
 import JavaCommunityBoard.types.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,6 +53,11 @@ public class GlobalException {
     @ExceptionHandler(HandleMisMatchBoardInfo.class)
     public ResponseEntity<ErrorResponse> HandleMisMatchUserInfo(HandleMisMatchBoardInfo e) {
         return createErrorResponse(e.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HandleEmptyMemberInfo.class)
+    public ResponseEntity<ErrorResponse> HandleMisMatchUserInfo(HandleEmptyMemberInfo e) {
+        return createErrorResponse(e.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
     public ResponseEntity<ErrorResponse> createErrorResponse (String msg, HttpStatus status) {

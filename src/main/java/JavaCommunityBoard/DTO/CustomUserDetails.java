@@ -1,6 +1,6 @@
 package JavaCommunityBoard.DTO;
 
-import JavaCommunityBoard.Entity.Member.MemberEntity;
+import JavaCommunityBoard.Entity.MemberEntity;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

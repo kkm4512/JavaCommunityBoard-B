@@ -19,8 +19,10 @@ public class WebConfig implements WebMvcConfigurer{
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        //해당 경로로 프론트에서 매핑 시도가오면
         registry.addResourceHandler("/uploads/**")
-                .addResourceLocations("file:///C:/Users/nayou/OneDrive/Desktop/Spring/JavaComunityBoard/uploads/");
+                //하단의 경로로 매핑이 된다
+                .addResourceLocations("file:///C:/Users/nayou/OneDrive/Desktop/every/Coding/JavaSpringProjects/JavaComunityBoard-B/uploads/");
     }
 
 }

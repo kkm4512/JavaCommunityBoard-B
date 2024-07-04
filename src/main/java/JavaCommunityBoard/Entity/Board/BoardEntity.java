@@ -9,6 +9,10 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity(name = "board")
 @Getter
@@ -19,16 +23,16 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
-    @Column
+    @Column(nullable = false)
     private Long memberId;
 
-    @Column
+    @Column(nullable = false)
     private String title;
 
-    @Column
+    @Column(nullable = false)
     private String description;
 
-    @Column
+    @Column(nullable = false)
     private String nickname;
 
     @CreatedDate
@@ -38,7 +42,17 @@ public class BoardEntity {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    BoardEntity() {}
+    @Column
+    private String boardImagePath;
+
+    @OneToMany(mappedBy = "boardEntity",cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<LikeEntity> likes = new HashSet<>();
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentEntity> comments = new ArrayList<>();
+
+
+    public BoardEntity() {}
 
     //updateBoard 데이터 확인
     //saveBoard 데이터 확인
@@ -67,7 +81,7 @@ public class BoardEntity {
 
         //글자수 확인
         if (this.title.length() > 20) throw new IllegalStateException("[Entity] 제목은 최소 1글자, 최대 20글자 이하입니다");
-        if (this.nickname.length() > 10) throw new IllegalStateException("[Entity] 닉네임은 최소 1글자, 최대 10글자 이하입니다");
+        if (this.nickname.length() > 20) throw new IllegalStateException("[Entity] 닉네임은 최소 5글자, 최대 20글자 이하입니다");
         if (this.description.length() > 255) throw new IllegalStateException("[Entity] 본문은 최소 1글자, 최대 255글자 이하입니다");
     }
 
@@ -83,5 +97,21 @@ public class BoardEntity {
         if (this.title.length() > 20) throw new IllegalStateException("[Entity] 제목은 최소 1글자, 최대 20글자 이하입니다");
         if (this.description.length() > 255) throw new IllegalStateException("[Entity] 본문은 최소 1글자, 최대 255글자 이하입니다");
         if (this.nickname.length() > 10) throw new IllegalStateException("[Entity] 닉네임은 최소 1글자, 최대 10글자 이하입니다");
+    }
+
+    @Override
+    public String toString() {
+        return "BoardEntity{" +
+                "boardId=" + boardId +
+                ", memberId=" + memberId +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", nickname='" + nickname + '\'' +
+                ", createdAt=" + createdAt +
+                ", updatedAt=" + updatedAt +
+                ", boardImagePath='" + boardImagePath + '\'' +
+                ", likes=" + likes +
+                ", comments=" + comments +
+                '}';
     }
 }

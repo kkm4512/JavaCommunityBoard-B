@@ -1,17 +1,14 @@
 package JavaCommunityBoard.Utillity.JWT;
 
 import JavaCommunityBoard.DTO.CustomUserDetails;
-import JavaCommunityBoard.Entity.Member.MemberEntity;
-import JavaCommunityBoard.Exceptions.HandleMisMatchUserInfo;
-import JavaCommunityBoard.Repository.Member.MemberRepository;
-import JavaCommunityBoard.types.ErrorResponse;
+import JavaCommunityBoard.Entity.MemberEntity;
+import JavaCommunityBoard.Repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,8 +16,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 @RequiredArgsConstructor
@@ -39,7 +34,6 @@ public class JWTFilter extends OncePerRequestFilter  {
 
             //토큰 확인
             if (authorization == null || !authorization.startsWith("Bearer ")) {
-                logger.info("token null");
                 filterChain.doFilter(req,res);
                 return;
             }
@@ -48,7 +42,6 @@ public class JWTFilter extends OncePerRequestFilter  {
 
             //토큰 소멸 시간 검증
             if (jwtUtil.isExpired(token)) {
-                logger.info("token expired");
                 filterChain.doFilter(req,res);
                 return;
             }

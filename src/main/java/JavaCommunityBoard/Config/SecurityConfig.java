@@ -1,5 +1,5 @@
 package JavaCommunityBoard.Config;
-import JavaCommunityBoard.Repository.Member.MemberRepository;
+import JavaCommunityBoard.Repository.MemberRepository;
 import JavaCommunityBoard.Utillity.JWT.JWTFilter;
 import JavaCommunityBoard.Utillity.JWT.JWTUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,8 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import static org.springframework.security.config.Customizer.withDefaults;
 
 
 @Configuration
@@ -48,7 +46,7 @@ public class SecurityConfig {
         //basic 로그인 방식
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login","/","/signUp","/board/getBoards/**","/getProfileImg/**","/uploads/**").permitAll()
+                .requestMatchers("/login","/","/signUp","/board/getBoards/**","/getProfileImg/**","/uploads/**","/board/getBoardImage/**","/board/updateBoard/**","/like/**","getNickname/**").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 

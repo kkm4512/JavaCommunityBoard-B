@@ -9,5 +9,6 @@ import java.util.List;
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity,Long> {
     List<BoardEntity> findAllByOrderByCreatedAtDesc();
+    List<BoardEntity> findAllByMemberIdOrderByCreatedAtDesc(Long memberId);
 
 }

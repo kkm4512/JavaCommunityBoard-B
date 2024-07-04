@@ -1,9 +1,9 @@
 package JavaCommunityBoard.Service;
 
 import JavaCommunityBoard.DTO.CustomUserDetails;
-import JavaCommunityBoard.Entity.Member.MemberEntity;
+import JavaCommunityBoard.Entity.MemberEntity;
 import JavaCommunityBoard.Exceptions.HandleMisMatchUserInfo;
-import JavaCommunityBoard.Repository.Member.MemberRepository;
+import JavaCommunityBoard.Repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

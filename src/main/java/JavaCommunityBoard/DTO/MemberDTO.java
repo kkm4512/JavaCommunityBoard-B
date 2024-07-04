@@ -1,10 +1,9 @@
-package JavaCommunityBoard.DTO.Member;
+package JavaCommunityBoard.DTO;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.web.multipart.MultipartFile;
 
 
 @Getter
@@ -22,7 +21,7 @@ public class MemberDTO {
     private String password;
 
     @NotBlank(message = "[DTO] 닉네임은 공백 일 수 없습니다")
-    @Size(min = 1,max = 10,message = "[DTO] 닉네임은 최소 1글자, 최대 10글자 이하입니다")
+    @Size(min = 5,max = 10,message = "[DTO] 닉네임은 최소 5글자, 최대 10글자 이하입니다")
     private String nickname;
 
     @NotBlank(message = "[DTO] 권한은 공백 일 수 없습니다")

@@ -1,4 +1,4 @@
-package JavaCommunityBoard.Controller.AccessToken;
+package JavaCommunityBoard.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
