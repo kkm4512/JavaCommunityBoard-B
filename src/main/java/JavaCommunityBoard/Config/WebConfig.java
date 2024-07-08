@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer{
         //해당 경로로 프론트에서 매핑 시도가오면
         registry.addResourceHandler("/uploads/**")
                 //하단의 경로로 매핑이 된다
-                .addResourceLocations("file:///C:/Users/nayou/OneDrive/Desktop/every/Coding/JavaSpringProjects/JavaComunityBoard-B/uploads/");
+                .addResourceLocations("file:///C:/Users/nayou/Desktop/every/Coding/JavaSpringProjects/JavaComunityBoard-B/uploads/");
     }
 
 }

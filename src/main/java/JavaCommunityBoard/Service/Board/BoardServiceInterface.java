@@ -55,4 +55,6 @@ public interface BoardServiceInterface {
 
     List<BoardDTO> getAllBoardsById(Long memberId);
 
+    public BoardDTO getBoardByBoardId(Long boardId);
+
 }

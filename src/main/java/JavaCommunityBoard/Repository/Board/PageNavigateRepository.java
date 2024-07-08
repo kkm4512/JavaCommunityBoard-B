@@ -7,4 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface PageNavigateRepository extends JpaRepository<BoardEntity,Long> {
     Page<BoardEntity> findAllByOrderByCreatedAtDesc(Pageable pageable);
+    Page<BoardEntity> findByMemberId (Long loginMemberId, Pageable pageable);
 }

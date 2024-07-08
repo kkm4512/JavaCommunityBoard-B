@@ -28,6 +28,8 @@ public class BoardDTO {
     @NotNull(message = "[DTO] memberId는 공백 일 수 없습니다")
     private Long memberId;
 
+    private Long SharedId;
+
     @NotBlank(message = "[DTO] 제목은 공백 일 수 없습니다", groups = {OnUpdate.class, OnSave.class})
     @Size(min = 1,max = 20,message = "[DTO] 제목은 최소 1글자, 최대 20글자 이하입니다")
     private String title;
@@ -39,6 +41,8 @@ public class BoardDTO {
     @NotBlank(message = "[DTO] 닉네임은 공백 일 수 없습니다", groups = {OnUpdate.class})
     @Size(min = 5,max = 20,message = "[DTO] 닉네임은 최소 5글자, 최대 20글자 이하입니다")
     private String nickname;
+
+    private boolean shared;
 
     private String boardImagePath;
 

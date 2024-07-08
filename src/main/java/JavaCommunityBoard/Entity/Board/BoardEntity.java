@@ -23,16 +23,16 @@ public class BoardEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardId;
 
-    @Column(nullable = false)
+    @Column
     private Long memberId;
 
-    @Column(nullable = false)
+    @Column
     private String title;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
-    @Column(nullable = false)
+    @Column
     private String nickname;
 
     @CreatedDate
@@ -45,11 +45,17 @@ public class BoardEntity {
     @Column
     private String boardImagePath;
 
+    @Column
+    private boolean shared;
+
     @OneToMany(mappedBy = "boardEntity",cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<LikeEntity> likes = new HashSet<>();
 
     @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CommentEntity> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "boardEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ShareEntity> shares = new ArrayList<>();
 
 
     public BoardEntity() {}

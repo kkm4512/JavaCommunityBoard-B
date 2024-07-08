@@ -28,4 +28,5 @@ public class LikeEntity {
 
     @Column
     private Boolean liked;
+
 }

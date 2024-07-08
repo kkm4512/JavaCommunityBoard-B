@@ -63,4 +63,9 @@ public class BoardController {
         return boardService.getAllBoardsById(memberId);
     }
 
+    @GetMapping("/getBoard/{boardId}")
+    public BoardDTO getBoardByBoardId(@PathVariable("boardId") Long boardId){
+        return boardService.getBoardByBoardId(boardId);
+    }
+
 }

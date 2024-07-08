@@ -14,8 +14,7 @@ import java.util.UUID;
 public class FileUploadService {
 
     public String storeFile(MultipartFile file, String uploadDir) throws IOException {
-        //폴더생성
-        if (!file.isEmpty()) {
+            //폴더생성
             Files.createDirectories(Paths.get(uploadDir));
 
             //유니크한 파일 이름 생성
@@ -26,20 +25,6 @@ public class FileUploadService {
             Files.copy(file.getInputStream(), filePath);
 
             return fileName;
-        } else {
-            String defaultUploadDir = "C:\\Users\\nayou\\OneDrive\\Desktop\\every\\Coding\\JavaSpringProjects\\JavaComunityBoard-B\\imageDatas\\defaultProfile";
-            Files.createDirectories(Paths.get(defaultUploadDir));
-
-            //유니크한 파일 이름 생성
-            String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-            Path filePath = Paths.get(defaultUploadDir,fileName);
-
-            //fs에 파일 저장
-            Files.copy(file.getInputStream(), filePath);
-
-            return fileName;
-        }
-
     }
 
     //얘가 하는역할은 뭐지 ?

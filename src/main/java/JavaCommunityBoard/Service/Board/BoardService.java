@@ -97,4 +97,10 @@ public class BoardService implements BoardServiceInterface{
         List<BoardEntity> boardEntities = boardRepository.findAllByMemberIdOrderByCreatedAtDesc(memberId);
         return boardEntities.stream().map(convert::boardEntityToDTO).toList();
     }
+
+    @Transactional
+    @Override
+    public BoardDTO getBoardByBoardId(Long boardId) {
+        return convert.boardEntityToDTO(boardRepository.findByBoardId(boardId));
+    }
 }

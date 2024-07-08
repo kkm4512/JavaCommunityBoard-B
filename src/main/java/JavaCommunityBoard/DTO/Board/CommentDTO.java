@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -14,6 +16,8 @@ public class CommentDTO {
     private Long id;
     private Long memberId;
     private Long boardId;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @NotBlank(message = "댓글은 공란 일수 없습니다")
     private String comment;

@@ -5,42 +5,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ShareDTO {
-    private Long id;
-    private boolean shared;
-    private String writerImagePath;
-    private String boardImagePath;
-    private Long loginMemberId;
+    private Long sharedId;
     private Long boardId;
-    private Long memberId;
-    private String title;
-    private String description;
-    private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
-    private String nickname;
+    private boolean shared;
+    private Long loginMemberId;
 
     @Override
     public String toString() {
         return "ShareDTO{" +
-                "id=" + id +
-                ", shared=" + shared +
-                ", writerImagePath='" + writerImagePath + '\'' +
-                ", boardImagePath='" + boardImagePath + '\'' +
-                ", loginMemberId=" + loginMemberId +
+                "sharedId=" + sharedId +
                 ", boardId=" + boardId +
-                ", memberId=" + memberId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
+                ", shared=" + shared +
+                ", loginMemberId=" + loginMemberId +
                 '}';
     }
 }

@@ -60,8 +60,9 @@
         2-1-2. 자신의 댓글에 대해서만 삭제 업뎃 가능
 
 3. share
-    3-1. 현재 board에 담겨져있는 정보 전부를 자신의 페이지로 옮기기
-    3-2. 뭔가 공유됐다는 표시해주면 좋을듯
+    3-1. 프론트에서 공유버튼을 클릭한 boardId,loginMemberId 를 받아온다.
+    3-2. 백엔드의 shareController 에서 shareDTO(boardId,loginMemberId) 수신
+    3-3. shareService
 
 
 

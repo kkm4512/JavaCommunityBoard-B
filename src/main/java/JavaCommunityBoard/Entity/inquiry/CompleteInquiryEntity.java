@@ -1,14 +1,13 @@
-package JavaCommunityBoard.Entity.Board;
+package JavaCommunityBoard.Entity.inquiry;
 
-import JavaCommunityBoard.Entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
@@ -18,28 +17,18 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class CommentEntity {
+public class CompleteInquiryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "member_id",nullable = false)
-    private MemberEntity memberEntity;
-
-    @ManyToOne
-    @JoinColumn(name = "board_id",nullable = false)
-    private BoardEntity boardEntity;
-
-    @Column
-    private String comment;
+    private Long inquiryId;
 
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
 
-    @LastModifiedDate
-    private LocalDateTime updatedAt;
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "inquiryId",insertable = false,updatable = false)
+    private InquiryEntity inquiryEntity;
 }

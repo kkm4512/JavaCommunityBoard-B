@@ -4,60 +4,44 @@ import JavaCommunityBoard.DTO.Board.BoardDTO;
 import JavaCommunityBoard.DTO.Board.ShareDTO;
 import JavaCommunityBoard.Entity.Board.BoardEntity;
 import JavaCommunityBoard.Entity.Board.ShareEntity;
-import JavaCommunityBoard.Entity.MemberEntity;
 import JavaCommunityBoard.Exceptions.HandleMisMatchBoardInfo;
 import JavaCommunityBoard.Repository.Board.BoardRepository;
 import JavaCommunityBoard.Repository.Board.ShareRepository;
-import JavaCommunityBoard.Repository.MemberRepository;
 import JavaCommunityBoard.Utillity.Convert.Convert;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ShareService implements ShareServiceInterface{
 
-    private final Convert convert;
-    private final MemberRepository memberRepository;
-    private final BoardRepository boardRepository;
     private final ShareRepository shareRepository;
+    private final BoardRepository boardRepository;
+    private final Convert convert;
 
     @Transactional
     @Override
-    public boolean createShareBoard(ShareDTO shareDTO){
-        ShareEntity shareEntity = new ShareEntity();
-
-        shareEntity.setTitle(shareDTO.getTitle());
-        shareEntity.setDescription(shareDTO.getDescription());
-        shareEntity.setMemberId(shareDTO.getMemberId());
-        shareEntity.setNickname(shareDTO.getNickname());
-        shareEntity.setBoardImagePath(shareDTO.getBoardImagePath());
-        shareEntity.setShared(shareDTO.isShared());
-        shareEntity.setLoginMemberId(shareDTO.getLoginMemberId());
-        shareEntity.setWriterImagePath(shareDTO.getWriterImagePath());
-
-        shareRepository.save(shareEntity);
-
-        return true;
+    public List<BoardDTO> getSharedBoards(Long loginMemberId) {
+        List<ShareEntity> shares = shareRepository.findAllByLoginMemberIdOrderByIdDesc(loginMemberId);
+        List<BoardEntity> boardEntities = shares.stream()
+                .map(ShareEntity::getBoardEntity)
+                .toList();
+        return shares.stream()
+                .map(share -> convert.sharedBoardEntityToDTO(share.getBoardEntity(), share.getId()))
+                .toList();
     }
 
-//    @Transactional
-//    @Override
-//    public List<ShareDTO> getShareBoards(Long loginMemberId) {
-//        List<ShareEntity> shareEntities = shareRepository.findByLoginMemberIdOrderByBoardCreatedAtDesc(loginMemberId);
-//        return shareEntities.stream().map(convert::shareEntityToDTO).toList();
-//    }
-//
-//    @Override
-//    public boolean removeBoard(ShareDTO shareDTO) {
-//        MemberEntity memberEntity = memberRepository.findById(shareDTO.getBoard().getMemberId()).orElseThrow(() -> new IllegalArgumentException("올바르지 않은 회원입니다"));
-//        BoardEntity boardEntity = boardRepository.findById(shareDTO.getBoard().getBoardId()).orElseThrow(() -> new IllegalArgumentException("올바르지 않은 게시글입니다"));
-//        ShareEntity shareEntity = shareRepository.findByMember_IdAndIdAndBoard_BoardId(shareDTO.getLoginMemberId(),shareDTO.getId(),shareDTO.getBoard().getBoardId());
-//        shareRepository.delete(shareEntity);
-//        return true;
-//    }
+    @Override
+    public boolean removeSharedBoard(ShareDTO shareDTO) {
+        System.out.println(shareDTO);
+        ShareEntity shareEntity = shareRepository.findById(shareDTO.getSharedId()).orElseThrow(() -> new HandleMisMatchBoardInfo("없습니다"));
+        shareRepository.delete(shareEntity);
+        return true;
+    }
 }
