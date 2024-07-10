@@ -1,13 +1,17 @@
 package JavaCommunityBoard.Service.Board;
 
 import JavaCommunityBoard.DTO.Board.BoardDTO;
+import JavaCommunityBoard.DTO.Inquiry.CompleteInquiryCompleted;
+import JavaCommunityBoard.DTO.Inquiry.CompleteInquiryDTO;
 import JavaCommunityBoard.DTO.Inquiry.InquiryDTO;
 import JavaCommunityBoard.Entity.Board.BoardEntity;
+import JavaCommunityBoard.Entity.inquiry.CompleteInquiryEntity;
 import JavaCommunityBoard.Entity.inquiry.InquiryEntity;
 import JavaCommunityBoard.Entity.Board.ShareEntity;
 import JavaCommunityBoard.Repository.Board.BoardRepository;
 import JavaCommunityBoard.Repository.Board.PageNavigateRepository;
 import JavaCommunityBoard.Repository.Board.ShareRepository;
+import JavaCommunityBoard.Repository.Inquiry.CompleteInquiryRepository;
 import JavaCommunityBoard.Repository.Inquiry.InquiryRepository;
 import JavaCommunityBoard.Utillity.Convert.Convert;
 import jakarta.transaction.Transactional;
@@ -31,6 +35,7 @@ public class PageNavigateService implements PageNavigateServiceInterface{
     private final BoardRepository boardRepository;
     private final ShareService shareService;
     private final InquiryRepository inquiryRepository;
+    private final CompleteInquiryRepository completeInquiryRepository;
 
     @Autowired
     private PageNavigateRepository navigateRepository;
@@ -112,11 +117,22 @@ public class PageNavigateService implements PageNavigateServiceInterface{
 
     @Transactional
     @Override
-    public List<InquiryDTO> getAllInquiries(int PageNumber) {
+    public List<CompleteInquiryDTO> getAllInquiries(int PageNumber) {
         Pageable pageable = PageRequest.of(PageNumber - 1,3,Sort.by("createdAt").ascending());
-        Page<InquiryEntity> inquiryEntityPage = inquiryRepository.findAllByOrderByCreatedAtAsc(pageable);
-        return inquiryEntityPage.getContent().stream()
-                .map(convert::inquiryEntityToDTO)
+        Page<CompleteInquiryEntity> completeInquiryEntities = completeInquiryRepository.findAllByStatusOrderByCreatedAtAsc(CompleteInquiryCompleted.IN_PROCESS,pageable);
+        return completeInquiryEntities.getContent().stream()
+                .map(convert::completeInquiryEntityToDTO)
+                .toList();
+    }
+
+    //여기서 데이터를 가져올떄 OneToOne 되있는 RejectInquirySaveEntity 에서도 데이터를 끌고와야함
+    @Transactional
+    @Override
+    public List<CompleteInquiryDTO> getAllInquiryCompletes(int pageNumber, Long memberId) {
+        Pageable pageable = PageRequest.of(pageNumber - 1 , 10 , Sort.by("createdAt").descending());
+        Page<CompleteInquiryEntity> completeInquiryEntities = completeInquiryRepository.findAllByMemberId(memberId,pageable);
+        return completeInquiryEntities.getContent().stream()
+                .map(convert::completeInquiryAndRejectInquiryEntityToDTO)
                 .toList();
     }
 }

@@ -1,12 +1,15 @@
 package JavaCommunityBoard.Service.Inquiry;
 
+import JavaCommunityBoard.DTO.Inquiry.CompleteInquiryDTO;
 import JavaCommunityBoard.DTO.Inquiry.InquiryDTO;
 import JavaCommunityBoard.DTO.Inquiry.InquirySaveDTO;
+import JavaCommunityBoard.Entity.inquiry.CompleteInquiryEntity;
 import JavaCommunityBoard.Entity.inquiry.InquiryEntity;
 import JavaCommunityBoard.Entity.MemberEntity;
 import JavaCommunityBoard.Exceptions.HandleMisMatchBoardInfo;
 import JavaCommunityBoard.Exceptions.HandleMisMatchUserInfo;
 import JavaCommunityBoard.Paths.PathConstants;
+import JavaCommunityBoard.Repository.Inquiry.CompleteInquiryRepository;
 import JavaCommunityBoard.Repository.Inquiry.InquiryRepository;
 import JavaCommunityBoard.Repository.MemberRepository;
 import JavaCommunityBoard.Service.File.FileUploadService;
@@ -26,12 +29,13 @@ public class InquiryService implements InquiryServiceInterface{
     private final InquiryRepository inquiryRepository;
     private final Convert convert;
     private final FileUploadService fileUploadService;
+    private final CompleteInquiryRepository completeInquiryRepository;
 
 
     @SneakyThrows
     @Transactional
     @Override
-    public void saveInquiry(InquirySaveDTO inquirySaveDTO, MultipartFile saveInquiryImage) {
+    public Long saveInquiry(InquirySaveDTO inquirySaveDTO, MultipartFile saveInquiryImage) {
         MemberEntity memberEntity = memberRepository.findById(inquirySaveDTO.getMemberId()).orElseThrow(() -> new HandleMisMatchUserInfo("조회되는 회원이 없습니다"));
         String saveInquiryImagePath = null;
         InquiryEntity inquiryEntity = new InquiryEntity();
@@ -45,6 +49,7 @@ public class InquiryService implements InquiryServiceInterface{
             inquiryEntity.setFilePath(saveInquiryImagePath);
         }
         inquiryRepository.save(inquiryEntity);
+        return inquiryEntity.getId();
     }
 
     @Transactional
@@ -63,4 +68,5 @@ public class InquiryService implements InquiryServiceInterface{
         inquiryRepository.delete(inquiryEntity);
         return true;
     }
+
 }

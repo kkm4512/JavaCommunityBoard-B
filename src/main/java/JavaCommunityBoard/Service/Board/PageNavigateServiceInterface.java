@@ -1,6 +1,7 @@
 package JavaCommunityBoard.Service.Board;
 
 import JavaCommunityBoard.DTO.Board.BoardDTO;
+import JavaCommunityBoard.DTO.Inquiry.CompleteInquiryDTO;
 import JavaCommunityBoard.DTO.Inquiry.InquiryDTO;
 import org.springframework.data.domain.Page;
 
@@ -13,6 +14,6 @@ public interface PageNavigateServiceInterface {
     List<BoardDTO> getAllShareBoardsAndBoards(int pageNumber, Long loginMemberId);
     List<BoardDTO> getPageAllBoardsById(Long loginMemberId);
     List<BoardDTO> getPageAllShareBoardsById(Long loginMemberId);
-    List<InquiryDTO> getAllInquiries(int PageNumber);
-
+    List<CompleteInquiryDTO> getAllInquiries(int PageNumber);
+    List<CompleteInquiryDTO> getAllInquiryCompletes(int pageNumber, Long memberId);
 }

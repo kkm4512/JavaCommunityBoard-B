@@ -39,7 +39,6 @@ public class ShareService implements ShareServiceInterface{
 
     @Override
     public boolean removeSharedBoard(ShareDTO shareDTO) {
-        System.out.println(shareDTO);
         ShareEntity shareEntity = shareRepository.findById(shareDTO.getSharedId()).orElseThrow(() -> new HandleMisMatchBoardInfo("없습니다"));
         shareRepository.delete(shareEntity);
         return true;

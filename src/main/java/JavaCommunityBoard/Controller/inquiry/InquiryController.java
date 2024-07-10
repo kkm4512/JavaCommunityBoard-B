@@ -1,5 +1,6 @@
 package JavaCommunityBoard.Controller.inquiry;
 
+import JavaCommunityBoard.DTO.Inquiry.CompleteInquiryDTO;
 import JavaCommunityBoard.DTO.Inquiry.InquiryDTO;
 import JavaCommunityBoard.DTO.Inquiry.InquirySaveDTO;
 import JavaCommunityBoard.Service.Inquiry.InquiryService;
@@ -19,8 +20,8 @@ public class InquiryController {
 
     @SneakyThrows
     @PostMapping(value = "/save", consumes = "multipart/form-data")
-    public void saveInquiry(@RequestPart(value = "inquirySaveDTO") InquirySaveDTO inquirySaveDTO, @RequestPart(value = "saveInquiryImage", required = false) MultipartFile saveInquiryImage){
-        inquiryService.saveInquiry(inquirySaveDTO,saveInquiryImage);
+    public Long saveInquiry(@RequestPart(value = "inquirySaveDTO") InquirySaveDTO inquirySaveDTO, @RequestPart(value = "saveInquiryImage", required = false) MultipartFile saveInquiryImage){
+        return inquiryService.saveInquiry(inquirySaveDTO,saveInquiryImage);
     }
 
     @GetMapping("/getAll")
@@ -28,8 +29,12 @@ public class InquiryController {
         return inquiryService.getAllInquires();
     }
 
-    @DeleteMapping("/delete/{id}")
-    public boolean deleteInquiry(@PathVariable("id") Long id ){
-        return inquiryService.deleteInquiry(id);
+    @DeleteMapping("/delete/{inquiryId}")
+    public boolean updateInquiry(@PathVariable("inquiryId") Long inquiryId ){
+        return inquiryService.deleteInquiry(inquiryId);
     }
+
+
+
+
 }

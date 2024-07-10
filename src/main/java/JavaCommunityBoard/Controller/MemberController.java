@@ -1,19 +1,17 @@
 package JavaCommunityBoard.Controller;
 
 import JavaCommunityBoard.DTO.MemberDTO;
-import JavaCommunityBoard.Exceptions.HandleMisMatchUserInfo;
-import JavaCommunityBoard.Paths.PathConstants;
 import JavaCommunityBoard.Service.File.FileEncodedService;
 import JavaCommunityBoard.Service.Member.MemberService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
-import org.springframework.validation.BeanPropertyBindingResult;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import static JavaCommunityBoard.Paths.PathConstants.GET_MEMBERS_FILE_BASEURL;
 
 @RequiredArgsConstructor
 @RestController
@@ -41,7 +39,7 @@ public class MemberController {
 
     @GetMapping("/getProfileImg/{memberId}")
     public String downloadMemberProfileImage(@PathVariable("memberId") long memberId) {
-        return memberService.loadMemberProfileImage(memberId, PathConstants.GET_MEMBERS_FILE_BASEURL);
+        return memberService.loadMemberProfileImage(memberId, GET_MEMBERS_FILE_BASEURL);
     }
 
     @GetMapping("/getNickname/{memberId}")

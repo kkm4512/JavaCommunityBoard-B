@@ -14,10 +14,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity(name = "board")
+@Entity
 @Getter
 @Setter
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "boards")
 public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

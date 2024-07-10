@@ -46,7 +46,15 @@ public class SecurityConfig {
         //basic 로그인 방식
         http.httpBasic(AbstractHttpConfigurer::disable);
         http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/login","/","/signUp","/board/getBoards/**","/getProfileImg/**","/uploads/**","/board/getBoardImage/**","/board/updateBoard/**","/like/**","getNickname/**").permitAll()
+                .requestMatchers(
+                        "/login",
+                        "/board/**",
+                        "/signUp",
+                        "/getProfileImg/**",
+                        "/uploads/**",
+                        "/like/**",
+                        "/getNickname/**"
+                ).permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated());
 

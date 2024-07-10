@@ -1,0 +1,44 @@
+version: '3'
+
+services:
+  database:
+    container_name: database
+    image: mysql/mysql-server:5.7
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: communityBoard
+      MYSQL_ROOT_HOST: '%'
+      MYSQL_ROOT_PASSWORD: 1234
+      TZ: 'Asia/Seoul'
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql/conf.d:/etc/mysql/conf.d # MySQL 설정 파일 위치
+    command:
+      - "mysqld"
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+    networks:
+      - test_network
+
+  application:
+    container_name: docker-compose-test
+    restart: on-failure
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/communityBoard?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1234
+    depends_on:
+      - database
+    networks:
+      - test_network
+    volumes:
+      - ./uploads:/uploads
+
+networks:
+  test_network:

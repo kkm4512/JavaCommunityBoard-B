@@ -12,6 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "likes")
 public class LikeEntity {
 
     @Id

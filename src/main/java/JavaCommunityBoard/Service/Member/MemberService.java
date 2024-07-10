@@ -17,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
+import static JavaCommunityBoard.Paths.PathConstants.GET_MEMBERS_FILE_BASEURL;
+
 @Service
 @RequiredArgsConstructor
 public class MemberService implements MemberServiceInterface{
@@ -35,7 +37,7 @@ public class MemberService implements MemberServiceInterface{
         MemberEntity memberEntity = new MemberEntity(memberDTO.getName(),hashedPassword,memberDTO.getNickname(),memberDTO.getRole());
 
         if (profileImg != null && !profileImg.isEmpty()) {
-            String fileName = fileUploadService.storeFile(profileImg, PathConstants.GET_MEMBERS_FILE_BASEURL);
+            String fileName = fileUploadService.storeFile(profileImg, GET_MEMBERS_FILE_BASEURL);
             memberEntity.setProfilePath(fileName);
         }
         memberRepository.save(memberEntity);

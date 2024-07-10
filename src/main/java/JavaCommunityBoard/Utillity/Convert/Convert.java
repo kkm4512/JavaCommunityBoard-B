@@ -3,9 +3,12 @@ package JavaCommunityBoard.Utillity.Convert;
 import JavaCommunityBoard.DTO.Board.BoardDTO;
 import JavaCommunityBoard.DTO.Board.CommentDTO;
 import JavaCommunityBoard.DTO.Board.LikeDTO;
+import JavaCommunityBoard.DTO.Inquiry.CompleteInquiryDTO;
 import JavaCommunityBoard.DTO.Inquiry.InquiryDTO;
+import JavaCommunityBoard.DTO.Inquiry.RejectInquiryDTO;
 import JavaCommunityBoard.Entity.Board.BoardEntity;
 import JavaCommunityBoard.Entity.Board.CommentEntity;
+import JavaCommunityBoard.Entity.inquiry.CompleteInquiryEntity;
 import JavaCommunityBoard.Entity.inquiry.InquiryEntity;
 import JavaCommunityBoard.Entity.Board.LikeEntity;
 import JavaCommunityBoard.Entity.MemberEntity;
@@ -28,9 +31,9 @@ public class Convert {
         boardDTO.setTitle(boardEntity.getTitle());
         boardDTO.setDescription(boardEntity.getDescription());
         boardDTO.setNickname(boardEntity.getNickname());
-        boardDTO.setBoardImagePath(boardEntity.getBoardImagePath());
         boardDTO.setCreatedAt(boardEntity.getCreatedAt());
         boardDTO.setUpdatedAt(boardEntity.getUpdatedAt());
+        boardDTO.setBoardImagePath(boardEntity.getBoardImagePath());
 
         List<LikeDTO> likeDTOS = boardEntity.getLikes().stream()
                 .map( this::likeEntityToDTO )
@@ -173,6 +176,42 @@ public class Convert {
         return inquiryDTO;
     }
 
+    public CompleteInquiryDTO completeInquiryEntityToDTO(CompleteInquiryEntity completeInquiryEntity){
+        CompleteInquiryDTO completeInquiryDTO = new CompleteInquiryDTO();
+        completeInquiryDTO.setId(completeInquiryEntity.getId());
+        completeInquiryDTO.setStatus( completeInquiryEntity.getStatus() );
+        completeInquiryDTO.setInquiryId(completeInquiryEntity.getInquiryId());
+        completeInquiryDTO.setCategory(completeInquiryEntity.getCategory());
+        completeInquiryDTO.setDescription(completeInquiryEntity.getDescription());
+        completeInquiryDTO.setTitle(completeInquiryEntity.getTitle());
+        completeInquiryDTO.setCreatedAt(completeInquiryEntity.getCreatedAt());
+        completeInquiryDTO.setMemberId(completeInquiryEntity.getMemberId());
+
+        if ( completeInquiryEntity.getFilePath() != null && !completeInquiryEntity.getFilePath().isEmpty()) {
+            String filePath = fileDownloadService.loadFileAsResource(completeInquiryEntity.getFilePath(), PathConstants.GET_INQUIRY_FILE_BASEURL);
+            completeInquiryDTO.setFilePath(filePath);
+        }
+        return completeInquiryDTO;
+    }
+
+    public CompleteInquiryDTO completeInquiryAndRejectInquiryEntityToDTO(CompleteInquiryEntity completeInquiryEntity){
+        CompleteInquiryDTO completeInquiryDTO = new CompleteInquiryDTO();
+        RejectInquiryDTO rejectInquiry = new RejectInquiryDTO();
+        rejectInquiry.setTitle(completeInquiryEntity.getTitle());
+        rejectInquiry.setDescription(completeInquiryEntity.getDescription());
+        completeInquiryDTO.setRejectInquiryDTO(rejectInquiry);
+
+        completeInquiryDTO.setId(completeInquiryEntity.getId());
+        completeInquiryDTO.setStatus( completeInquiryEntity.getStatus() );
+        completeInquiryDTO.setInquiryId(completeInquiryEntity.getInquiryId());
+        completeInquiryDTO.setCategory(completeInquiryEntity.getCategory());
+        completeInquiryDTO.setFilePath(completeInquiryEntity.getFilePath());
+        completeInquiryDTO.setDescription(completeInquiryEntity.getDescription());
+        completeInquiryDTO.setTitle(completeInquiryEntity.getTitle());
+        completeInquiryDTO.setCreatedAt(completeInquiryEntity.getCreatedAt());
+        completeInquiryDTO.setMemberId(completeInquiryEntity.getMemberId());
+        return completeInquiryDTO;
+    }
 
 
 }

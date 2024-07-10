@@ -1,6 +1,5 @@
 package JavaCommunityBoard.Entity.inquiry;
 
-import JavaCommunityBoard.DTO.Inquiry.InquiryCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,33 +16,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "inquiries")
-public class InquiryEntity {
+@Table(name = "rejectInquirySaves")
+public class RejectInquirySaveEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long memberId;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "complete_id")
+    private CompleteInquiryEntity completeInquiryEntity;
+
     private String title;
     private String description;
-    private InquiryCategory category;
-    private String filePath;
 
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime createdAt;
-
-
-
-    @Override
-    public String toString() {
-        return "InquiryEntity{" +
-                "id=" + id +
-                ", memberId=" + memberId +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", category=" + category +
-                ", filePath='" + filePath + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
-    }
 }

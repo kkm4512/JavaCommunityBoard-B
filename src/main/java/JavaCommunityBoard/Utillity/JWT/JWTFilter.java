@@ -13,9 +13,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -24,13 +27,38 @@ public class JWTFilter extends OncePerRequestFilter  {
     private final JWTUtil jwtUtil;
     private final MemberRepository memberRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
+    private final AntPathMatcher pathMatcher = new AntPathMatcher();
+    private final List<String> excludedPaths = Arrays.asList(
+            "/board/**",
+            "/login",
+            "/signUp",
+            "/getProfileImg/**",
+            "/uploads/**",
+            "/like/**",
+            "/getNickname/**"
+    );
+
+    private boolean isExcluded(String requestURI) {
+        return excludedPaths.stream().anyMatch(p -> pathMatcher.match(p, requestURI));
+    }
 
 
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain filterChain) throws ServletException, IOException {
-
         String authorization = req.getHeader("Authorization");
+        String requestURI = req.getRequestURI();
+        String path = req.getRequestURI();
 
+        if (isExcluded(requestURI)) {
+            filterChain.doFilter(req, res);
+            return;
+        }
+
+        // 특정 경로를 제외하도록 설정
+        if (pathMatcher.match("/board/getBoards", path)) {
+            filterChain.doFilter(req, res);
+            return;
+        }
 
             //토큰 확인
             if (authorization == null || !authorization.startsWith("Bearer ")) {
