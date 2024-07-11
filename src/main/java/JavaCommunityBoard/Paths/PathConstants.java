@@ -9,7 +9,6 @@ public class PathConstants {
     //실제 members 파일들 위치
     public static final String GET_MEMBERS_FILE_BASEURL =  "/uploads/members";
 
-
     //실제 boards 파일들 위치
     public static final String GET_BOARDS_FILE_BASEURL =  "/uploads/boards";
 
